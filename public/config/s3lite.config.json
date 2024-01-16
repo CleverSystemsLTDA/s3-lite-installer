@@ -1,0 +1,345 @@
+{
+  "server": {
+    "cliente": "CleverSystems",
+    "servername": "clevermesmo",
+    "paineladm": "1",
+    "painelcall": "http://localhost:3005",
+    "impusb": {
+      "ativo": true,
+      "tempoespera": "3",
+      "teclas": {
+        "btn1": "CmdOrCtrl+Shift+1",
+        "btn2": "CmdOrCtrl+Shift+2",
+        "btn3": "CmdOrCtrl+Shift+3",
+        "btn4": "CmdOrCtrl+Shift+4",
+        "btn5": "CmdOrCtrl+Shift+5"
+      }
+    },
+    "start": {
+      "buttonpanel": "0",
+      "s3painel": "0",
+      "anywhere": "0"
+    },
+    "dashboard": {
+      "syncdashboard": "0",
+      "host": "http://localhost:5015",
+      "user": "thayllan.siqueira@cleversystems.com.br",
+      "pass": "Thay@666",
+      "timesync": "1"
+    }
+  },
+  "impressao": {
+    "tipoimpressoras": [
+      "Custom",
+      "Bematech"
+    ],
+    "tipoimpressora": "1",
+    "imprimir": "0",
+    "network": "0",
+    "porta": "COM8",
+    "logo": "/s3lite/images/logoClever.png",
+    "production": {
+      "tipoimpressora": "0",
+      "imprimir": "0",
+      "network": "0",
+      "porta": "COM4",
+      "logo": "/s3lite/images/logoClever.png"
+    }
+  },
+  "senha": {
+    "tiposenha": "2",
+    "contadorsenha": "1",
+    "zerarcontagemdia": "1",
+    "zerarchamadadia": "1",
+    "msgimpressao": "Aguarde sua senha ser chamada no painel.",
+    "fila": [
+      {
+        "nomefila": "Agendar Exames",
+        "contadormaxfila": "999",
+        "letrafila": "A",
+        "prioridadefila": "0",
+        "faixainicialfila": "1",
+        "faixafinalfila": "199",
+        "filamlq": "",
+        "filanomemlq": "",
+        "statusfila": "1",
+        "idterminal": [
+          "1",
+          "2"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Tomografia Agendada",
+        "contadormaxfila": "999",
+        "letrafila": "T",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "",
+        "filanomemlq": "",
+        "statusfila": "1",
+        "idterminal": [],
+        "encaminhavel": false,
+        "serversenha": "http://192.168.10.131:5000",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Ressonância Agendada",
+        "contadormaxfila": "999",
+        "letrafila": "R",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "",
+        "filanomemlq": "",
+        "statusfila": "1",
+        "idterminal": [
+          "2"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Outros Exames Agendados",
+        "contadormaxfila": "999",
+        "letrafila": "O",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "",
+        "filanomemlq": "",
+        "statusfila": "1",
+        "idterminal": [
+          "3",
+          "4"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Resultado de Exame",
+        "contadormaxfila": "999",
+        "letrafila": "E",
+        "prioridadefila": "0",
+        "faixainicialfila": "",
+        "faixafinalfila": "",
+        "filamlq": "",
+        "filanomemlq": "",
+        "statusfila": "1",
+        "idterminal": [],
+        "encaminhavel": false,
+        "serversenha": "http://192.168.10.131:5000",
+        "serverprint": "",
+        "aviso": true,
+        "msgaviso": "Favor se dirigir ao balcão"
+      }
+    ]
+  },
+  "queue": {
+    "tipochamadas": [
+      "Tradicional Balanceada",
+      "Tradicional Term Prioritário",
+      "Por guichê",
+      "Balanceamento de Filas",
+      "Por guichê Balanceada"
+    ],
+    "tipochamada": "4",
+    "balanceamentotrad": [
+      "0",
+      "1",
+      "3"
+    ],
+    "balanceamentofila": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "acima80anosprio": "1",
+    "termsprioritarios": []
+  },
+  "terminal": {
+    "palavras": [
+      "guiche",
+      "balcao",
+      "caixa",
+      "terminal",
+      "atendimento",
+      "balanca"
+    ],
+    "terminais": [
+      {
+        "idterminal": "1",
+        "paineltxt": "1",
+        "painelpalavra": "guiche",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "recepcao-ressonancia",
+        "audioaorepetir": true
+      },
+      {
+        "idterminal": "2",
+        "paineltxt": "2",
+        "painelpalavra": "guiche",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "recepcao-ressonancia",
+        "audioaorepetir": true
+      },
+      {
+        "idterminal": "3",
+        "paineltxt": "SS3",
+        "painelpalavra": "guiche",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "subsolo",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "4",
+        "paineltxt": "SS4",
+        "painelpalavra": "guiche",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "subsolo",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "5",
+        "paineltxt": "5",
+        "painelpalavra": "guiche",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "recepcao-ultrassonografia",
+        "audioaorepetir": true
+      },
+      {
+        "idterminal": "6",
+        "paineltxt": "6",
+        "painelpalavra": "guiche",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "recepcao-ultrassonografia",
+        "audioaorepetir": true
+      }
+    ]
+  },
+  "chamada": {
+    "painelcall": "http://localhost:3005",
+    "repetidor": "0",
+    "repetidores": [
+      {
+        "painelcall": "http://192.168.10.131:3005"
+      }
+    ],
+    "chamadores": [
+      {
+        "0003": "2"
+      },
+      {
+        "0002": "1"
+      }
+    ]
+  },
+  "token": {
+    "token": "0",
+    "secret": "çaldkhfahgadakejfalkdsfabgçbgajgtadharheirerupqoieuraoasdkfjhgirp^^~~",
+    "expires": "24h"
+  },
+  "painelbotao": {
+    "width": "800",
+    "height": "1280",
+    "posx": "1920",
+    "posy": "0",
+    "background": "images/ortopedia-aguasclaras.png",
+    "tipopaineis": [
+      "Tela Tradicional",
+      "Tela de Filas",
+      "Tela Prioridade/Filas"
+    ],
+    "tipopainel": "2",
+    "prioridades": [
+      "0",
+      "1",
+      "3"
+    ],
+    "exibirSenhaImpressa": "1",
+    "falarSenhaImpressa": "0",
+    "botao": {
+      "font": "",
+      "fontsize": "34",
+      "fontcolor": "#FFFFFF",
+      "width": "500",
+      "height": "50",
+      "background": "",
+      "bgcolor": "#127c07",
+      "exibirtexto": "1"
+    },
+    "botaoPref": {
+      "font": "",
+      "fontsize": "34",
+      "fontcolor": "#FFFFFF",
+      "width": "500",
+      "height": "50",
+      "background": "",
+      "bgcolor": "#0000FF",
+      "exibirtexto": "1"
+    },
+    "botaoExpresso": {
+      "font": "",
+      "fontsize": "34",
+      "fontcolor": "#FFFFFF",
+      "width": "500",
+      "height": "50",
+      "background": "",
+      "bgcolor": "#1C1C1C",
+      "exibirtexto": "1"
+    },
+    "botaoSuperPref": {
+      "font": "",
+      "fontsize": "34",
+      "fontcolor": "#FFFFFF",
+      "width": "500",
+      "height": "50",
+      "background": "",
+      "bgcolor": "#F40000",
+      "exibirtexto": "1"
+    }
+  },
+  "mlq": {
+    "mlq": "1",
+    "timesync": "1",
+    "limit": "2",
+    "imprimir": "0",
+    "size": "4",
+    "urlmlqfila": "https://painel.cleversystems.net/api/senha/0/filaS3",
+    "urlmlqchamada": "https://painel.cleversystems.net/api/senha/0/chamadaS3",
+    "clientemlq": "1"
+  }
+}
