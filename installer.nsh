@@ -14,3 +14,4 @@ ${else}
   RMDir /r $INSTDIR
 ${endIf}
 !macroend
+

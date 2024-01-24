@@ -1,7 +1,7 @@
 {
   "server": {
     "cliente": "CleverSystems",
-    "servername": "clever1",
+    "servername": "clevermesmo",
     "paineladm": "1",
     "painelcall": "http://localhost:3005",
     "impusb": {
@@ -17,7 +17,15 @@
     },
     "start": {
       "buttonpanel": "0",
-      "s3painel": "0"
+      "s3painel": "0",
+      "anywhere": "0"
+    },
+    "dashboard": {
+      "syncdashboard": "0",
+      "host": "http://localhost:5015",
+      "user": "thayllan.siqueira@cleversystems.com.br",
+      "pass": "Thay@666",
+      "timesync": "1"
     }
   },
   "impressao": {
@@ -26,16 +34,16 @@
       "Bematech"
     ],
     "tipoimpressora": "1",
-    "imprimir": "1",
+    "imprimir": "0",
     "network": "0",
-    "porta": "COM5",
-    "logo": "/s3lite/images/ortopediaag.png",
+    "porta": "COM8",
+    "logo": "/s3lite/images/logoClever.png",
     "production": {
       "tipoimpressora": "0",
       "imprimir": "0",
       "network": "0",
       "porta": "COM4",
-      "logo": "/s3lite/images/ortopediaag.png"
+      "logo": "/s3lite/images/logoClever.png"
     }
   },
   "senha": {
@@ -249,6 +257,14 @@
       {
         "painelcall": "http://192.168.10.131:3005"
       }
+    ],
+    "chamadores": [
+      {
+        "0003": "2"
+      },
+      {
+        "0002": "1"
+      }
     ]
   },
   "token": {
@@ -317,11 +333,13 @@
     }
   },
   "mlq": {
-    "mlq": "0",
-    "size": "3",
-	"imprimir": "0",
-    "urlmlqfila": "http://painel.cleversystems.net/api/senha/0/filaS3",
-    "urlmlqchamada": "http://painel.cleversystems.net/api/senha/0/chamadaS3",
+    "mlq": "1",
+    "timesync": "1",
+    "limit": "2",
+    "imprimir": "0",
+    "size": "4",
+    "urlmlqfila": "https://painel.cleversystems.net/api/senha/0/filaS3",
+    "urlmlqchamada": "https://painel.cleversystems.net/api/senha/0/chamadaS3",
     "clientemlq": "1"
   }
 }
