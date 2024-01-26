@@ -9,13 +9,6 @@ let mainWindow;
 let child = null;
 let downloadPercent = 0;
 
-/* if (process.env.NODE_ENV === "development") {
-	autoUpdater.autoDownload = false;
-	autoUpdater.autoInstallOnAppQuit = false;
-	setInterval(() => {
-		autoUpdater.checkForUpdates();
-	}, 10000);
-} */
 
 const extraPath = join(process.resourcesPath, "..");
 
@@ -33,7 +26,6 @@ function createWindow() {
 }
 
 async function checkUpdate() {
-  // const response = await autoUpdater.checkForUpdatesAndNotify();
   let progressBar = new ProgressBar({
     indeterminate: false,
     text: "Baixando atualizações...",
@@ -63,20 +55,14 @@ function updaterListeners() {
   autoUpdater.on("update-available", () => {
     dialog
       .showMessageBox(mainWindow, {
-        type: "question",
+        type: "info",
         title: "Atualização Disponível",
         message:
-          "Uma nova atualização está disponível. Deseja instalá-la agora?",
-        buttons: ["Sim", "Não"],
+          "Uma nova atualização está disponível",
       })
-      .then((result) => {
-        if (result.response === 0) {
+      .then(() => {
           autoUpdater.downloadUpdate();
           checkUpdate();
-        }
-        if (result.response === 1) {
-          openApplication();
-        }
       });
   });
 
@@ -86,11 +72,10 @@ function updaterListeners() {
         type: "info",
         title: "Atualização baixada",
         message:
-          "A atualização foi baixada. Reinicie a aplicação para aplicar as mudanças.",
-        buttons: ["Reniciar", "Depois"],
+          "A atualização foi baixada. A aplicação será reiniciada para aplicar as mudanças.",
       })
-      .then((returnValue) => {
-        if (returnValue.response === 0) autoUpdater.quitAndInstall(true, true);
+      .then(() => {
+         autoUpdater.quitAndInstall(true, true);
       });
   });
 
