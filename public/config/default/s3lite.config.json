@@ -1,11 +1,11 @@
 {
   "server": {
     "cliente": "CleverSystems",
-    "servername": "clevermesmo",
+    "servername": "clever",
     "paineladm": "1",
     "painelcall": "http://localhost:3005",
     "impusb": {
-      "ativo": true,
+      "ativo": false,
       "tempoespera": "3",
       "teclas": {
         "btn1": "CmdOrCtrl+Shift+1",
@@ -16,8 +16,8 @@
       }
     },
     "start": {
-      "buttonpanel": "0",
-      "s3painel": "0",
+      "buttonpanel": "1",
+      "s3painel": "1",
       "anywhere": "0"
     },
     "dashboard": {
@@ -39,7 +39,7 @@
     "porta": "COM8",
     "logo": "/s3lite/images/logoClever.png",
     "production": {
-      "tipoimpressora": "0",
+      "tipoimpressora": "1",
       "imprimir": "0",
       "network": "0",
       "porta": "COM4",
@@ -47,25 +47,25 @@
     }
   },
   "senha": {
-    "tiposenha": "2",
-    "contadorsenha": "1",
+    "tiposenha": "0",
+    "contadorsenha": "0",
     "zerarcontagemdia": "1",
     "zerarchamadadia": "1",
     "msgimpressao": "Aguarde sua senha ser chamada no painel.",
     "fila": [
       {
-        "nomefila": "Agendar Exames",
+        "nomefila": "Normal",
         "contadormaxfila": "999",
-        "letrafila": "A",
+        "letrafila": "",
         "prioridadefila": "0",
         "faixainicialfila": "1",
         "faixafinalfila": "199",
-        "filamlq": "",
-        "filanomemlq": "",
+        "filamlq": "0",
+        "filanomemlq": "Normal",
         "statusfila": "1",
         "idterminal": [
-          "1",
-          "2"
+          "2",
+          "1"
         ],
         "encaminhavel": false,
         "serversenha": "",
@@ -74,31 +74,14 @@
         "msgaviso": "Favor se dirigir ao balcão"
       },
       {
-        "nomefila": "Tomografia Agendada",
+        "nomefila": "Preferencial",
         "contadormaxfila": "999",
-        "letrafila": "T",
-        "prioridadefila": "0",
+        "letrafila": "",
+        "prioridadefila": "1",
         "faixainicialfila": "201",
         "faixafinalfila": "399",
-        "filamlq": "",
-        "filanomemlq": "",
-        "statusfila": "1",
-        "idterminal": [],
-        "encaminhavel": false,
-        "serversenha": "http://192.168.10.131:5000",
-        "serverprint": "",
-        "aviso": false,
-        "msgaviso": "Favor se dirigir ao balcão"
-      },
-      {
-        "nomefila": "Ressonância Agendada",
-        "contadormaxfila": "999",
-        "letrafila": "R",
-        "prioridadefila": "0",
-        "faixainicialfila": "201",
-        "faixafinalfila": "399",
-        "filamlq": "",
-        "filanomemlq": "",
+        "filamlq": "1",
+        "filanomemlq": "Preferencial",
         "statusfila": "1",
         "idterminal": [
           "2"
@@ -110,40 +93,22 @@
         "msgaviso": "Favor se dirigir ao balcão"
       },
       {
-        "nomefila": "Outros Exames Agendados",
+        "nomefila": "Acima de 80 anos",
         "contadormaxfila": "999",
-        "letrafila": "O",
-        "prioridadefila": "0",
+        "letrafila": "",
+        "prioridadefila": "3",
         "faixainicialfila": "201",
         "faixafinalfila": "399",
-        "filamlq": "",
-        "filanomemlq": "",
+        "filamlq": "2",
+        "filanomemlq": "Acima de 80 anos",
         "statusfila": "1",
         "idterminal": [
-          "3",
-          "4"
+          "1"
         ],
         "encaminhavel": false,
         "serversenha": "",
         "serverprint": "",
         "aviso": false,
-        "msgaviso": "Favor se dirigir ao balcão"
-      },
-      {
-        "nomefila": "Resultado de Exame",
-        "contadormaxfila": "999",
-        "letrafila": "E",
-        "prioridadefila": "0",
-        "faixainicialfila": "",
-        "faixafinalfila": "",
-        "filamlq": "",
-        "filanomemlq": "",
-        "statusfila": "1",
-        "idterminal": [],
-        "encaminhavel": false,
-        "serversenha": "http://192.168.10.131:5000",
-        "serverprint": "",
-        "aviso": true,
         "msgaviso": "Favor se dirigir ao balcão"
       }
     ]
@@ -156,18 +121,16 @@
       "Balanceamento de Filas",
       "Por guichê Balanceada"
     ],
-    "tipochamada": "4",
+    "tipochamada": "0",
     "balanceamentotrad": [
       "0",
       "1",
       "3"
     ],
     "balanceamentofila": [
-      "0",
-      "1",
-      "2",
       "3",
-      "4"
+      "1",
+      "0"
     ],
     "acima80anosprio": "1",
     "termsprioritarios": []
@@ -190,8 +153,8 @@
         "tipofala": "0",
         "tipochamada": null,
         "filavaziachamaglobal": false,
-        "audioadicional": "recepcao-ressonancia",
-        "audioaorepetir": true
+        "audioadicional": "",
+        "audioaorepetir": false
       },
       {
         "idterminal": "2",
@@ -201,8 +164,8 @@
         "tipofala": "0",
         "tipochamada": null,
         "filavaziachamaglobal": false,
-        "audioadicional": "recepcao-ressonancia",
-        "audioaorepetir": true
+        "audioadicional": "",
+        "audioaorepetir": false
       },
       {
         "idterminal": "3",
@@ -212,7 +175,7 @@
         "tipofala": "0",
         "tipochamada": null,
         "filavaziachamaglobal": false,
-        "audioadicional": "subsolo",
+        "audioadicional": "",
         "audioaorepetir": false
       },
       {
@@ -223,7 +186,7 @@
         "tipofala": "0",
         "tipochamada": null,
         "filavaziachamaglobal": false,
-        "audioadicional": "subsolo",
+        "audioadicional": "",
         "audioaorepetir": false
       },
       {
@@ -234,8 +197,8 @@
         "tipofala": "0",
         "tipochamada": null,
         "filavaziachamaglobal": false,
-        "audioadicional": "recepcao-ultrassonografia",
-        "audioaorepetir": true
+        "audioadicional": "",
+        "audioaorepetir": false
       },
       {
         "idterminal": "6",
@@ -245,8 +208,8 @@
         "tipofala": "0",
         "tipochamada": null,
         "filavaziachamaglobal": false,
-        "audioadicional": "recepcao-ultrassonografia",
-        "audioaorepetir": true
+        "audioadicional": "",
+        "audioaorepetir": false
       }
     ]
   },
@@ -255,7 +218,7 @@
     "repetidor": "0",
     "repetidores": [
       {
-        "painelcall": "http://192.168.10.131:3005"
+        "painelcall": "http://192.168.10.174:3000"
       }
     ],
     "chamadores": [
@@ -275,7 +238,7 @@
   "painelbotao": {
     "width": "800",
     "height": "1280",
-    "posx": "1920",
+    "posx": "0",
     "posy": "0",
     "background": "images/ortopedia-aguasclaras.png",
     "tipopaineis": [
@@ -283,7 +246,7 @@
       "Tela de Filas",
       "Tela Prioridade/Filas"
     ],
-    "tipopainel": "2",
+    "tipopainel": "0",
     "prioridades": [
       "0",
       "1",
@@ -333,13 +296,13 @@
     }
   },
   "mlq": {
-    "mlq": "1",
+    "mlq": "0",
     "timesync": "1",
     "limit": "2",
     "imprimir": "0",
     "size": "4",
     "urlmlqfila": "https://painel.cleversystems.net/api/senha/0/filaS3",
     "urlmlqchamada": "https://painel.cleversystems.net/api/senha/0/chamadaS3",
-    "clientemlq": "1"
+    "clientemlq": "0"
   }
 }
