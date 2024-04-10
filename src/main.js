@@ -69,15 +69,16 @@ function updaterListeners() {
       log.info(`Update disponível: V${info.version}`);
       autoUpdater.downloadUpdate();
     }
-
-    openApplication();
   });
 
   autoUpdater.on("update-not-available", (info) => {
     log.info('Update not Available');
-    log.info(`Alterando para disponível para download`);
-    updateJson.updatedownloaded = 0;
-    writeJson(updateJson);
+    if (updateJson.updatedownloaded === 1) {
+      log.info(`Alterando para disponível para download`);
+      updateJson.updatedownloaded = 0;
+      writeJson(updateJson);
+      openApplication();
+    }
   });
 
   autoUpdater.on("update-downloaded", () => {
@@ -138,5 +139,7 @@ app.whenReady().then(async () => {
     }
   }
 
-  openApplication();
+  if (updateJson.updatedownloaded === 0) {
+    openApplication();
+  }
 });
