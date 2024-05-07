@@ -34,7 +34,8 @@
   "impressao": {
     "tipoimpressoras": [
       "Custom",
-      "Bematech"
+      "Bematech",
+      "Megaview"
     ],
     "tipoimpressora": "1",
     "imprimir": "0",
