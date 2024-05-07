@@ -1,6 +1,6 @@
 {
 	"name": "s3-lite-installer",
-	"version": "2.7.2-beta",
+	"version": "2.8.0-alpha",
 	"description": "SistemaDeAtualizacao",
 	"main": "src/main.js",
 	"scripts": {

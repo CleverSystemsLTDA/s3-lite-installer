@@ -2,10 +2,13 @@
   "server": {
     "cliente": "CleverSystems",
     "servername": "clever",
+    "serverport": "5000",
+    "serverbroadcastportudp": "6024",
+    "clientbroadcastportudp": "6025",
     "paineladm": "1",
-    "painelcall": "http://localhost:3005",
+    "integration": "0",
     "impusb": {
-      "ativo": false,
+      "ativo": true,
       "tempoespera": "3",
       "teclas": {
         "btn1": "CmdOrCtrl+Shift+1",
@@ -16,8 +19,8 @@
       }
     },
     "start": {
-      "buttonpanel": "1",
-      "s3painel": "1",
+      "buttonpanel": "0",
+      "s3painel": "0",
       "anywhere": "0"
     },
     "dashboard": {
@@ -110,6 +113,25 @@
         "serverprint": "",
         "aviso": false,
         "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 1",
+        "contadormaxfila": "999",
+        "letrafila": "C",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "2",
+        "filanomemlq": "Acima de 80 anos",
+        "statusfila": "0",
+        "idterminal": [
+          "1"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
       }
     ]
   },
@@ -121,7 +143,7 @@
       "Balanceamento de Filas",
       "Por guichê Balanceada"
     ],
-    "tipochamada": "0",
+    "tipochamada": "4",
     "balanceamentotrad": [
       "0",
       "1",
@@ -214,11 +236,11 @@
     ]
   },
   "chamada": {
-    "painelcall": "http://localhost:3005",
-    "repetidor": "0",
+    "painelcall": "http://192.168.10.245:3000",
+    "repetidor": "1",
     "repetidores": [
       {
-        "painelcall": "http://192.168.10.174:3000"
+        "painelcall": "http://192.168.10.133:3000"
       }
     ],
     "chamadores": [
@@ -238,7 +260,7 @@
   "painelbotao": {
     "width": "800",
     "height": "1280",
-    "posx": "0",
+    "posx": "1920",
     "posy": "0",
     "background": "images/ortopedia-aguasclaras.png",
     "tipopaineis": [
