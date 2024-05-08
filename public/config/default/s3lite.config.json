@@ -259,6 +259,11 @@
     "expires": "24h"
   },
   "painelbotao": {
+    "tiposorientation": [
+      "Horizontal",
+      "Vertical"
+    ],
+    "orientation": "1",
     "width": "800",
     "height": "1280",
     "posx": "1920",
