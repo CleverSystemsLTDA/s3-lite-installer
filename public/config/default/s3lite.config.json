@@ -1,9 +1,12 @@
 {
   "server": {
-    "cliente": "CleverSystems",
+    "cliente": "Cleversystems",
     "servername": "clever",
+    "serverport": "8090",
+    "serverbroadcastportudp": "8095",
+    "clientbroadcastportudp": "6025",
     "paineladm": "1",
-    "painelcall": "http://localhost:3005",
+    "integration": "0",
     "impusb": {
       "ativo": false,
       "tempoespera": "3",
@@ -16,8 +19,8 @@
       }
     },
     "start": {
-      "buttonpanel": "1",
-      "s3painel": "1",
+      "buttonpanel": "0",
+      "s3painel": "0",
       "anywhere": "0"
     },
     "dashboard": {
@@ -31,24 +34,25 @@
   "impressao": {
     "tipoimpressoras": [
       "Custom",
-      "Bematech"
+      "Bematech",
+      "Megaview"
     ],
     "tipoimpressora": "1",
     "imprimir": "0",
     "network": "0",
-    "porta": "COM8",
-    "logo": "/s3lite/images/logoClever.png",
+    "porta": "COM4",
+    "logo": "/s3lite/images/cardiosvita.png",
     "production": {
       "tipoimpressora": "1",
       "imprimir": "0",
       "network": "0",
       "porta": "COM4",
-      "logo": "/s3lite/images/logoClever.png"
+      "logo": "/s3lite/images/cardiosvita.png"
     }
   },
   "senha": {
     "tiposenha": "0",
-    "contadorsenha": "0",
+    "contadorsenha": "1",
     "zerarcontagemdia": "1",
     "zerarchamadadia": "1",
     "msgimpressao": "Aguarde sua senha ser chamada no painel.",
@@ -64,6 +68,9 @@
         "filanomemlq": "Normal",
         "statusfila": "1",
         "idterminal": [
+          "5",
+          "4",
+          "3",
           "2",
           "1"
         ],
@@ -84,7 +91,11 @@
         "filanomemlq": "Preferencial",
         "statusfila": "1",
         "idterminal": [
-          "2"
+          "5",
+          "4",
+          "3",
+          "2",
+          "1"
         ],
         "encaminhavel": false,
         "serversenha": "",
@@ -95,7 +106,7 @@
       {
         "nomefila": "Acima de 80 anos",
         "contadormaxfila": "999",
-        "letrafila": "",
+        "letrafila": "P",
         "prioridadefila": "3",
         "faixainicialfila": "201",
         "faixafinalfila": "399",
@@ -103,7 +114,182 @@
         "filanomemlq": "Acima de 80 anos",
         "statusfila": "1",
         "idterminal": [
+          "5",
+          "4",
+          "3",
+          "2",
           "1"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 1",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "3",
+        "filanomemlq": "Consultorio 1",
+        "statusfila": "0",
+        "idterminal": [
+          "11"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 2",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "4",
+        "filanomemlq": "Consultorio 2",
+        "statusfila": "0",
+        "idterminal": [
+          "12"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 3",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "5",
+        "filanomemlq": "Consultorio 3",
+        "statusfila": "0",
+        "idterminal": [
+          "13"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 4",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "6",
+        "filanomemlq": "Consultorio 4",
+        "statusfila": "0",
+        "idterminal": [
+          "14"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 5",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "7",
+        "filanomemlq": "Consultorio 5",
+        "statusfila": "0",
+        "idterminal": [
+          "15"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 6",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "8",
+        "filanomemlq": "Consultorio 6",
+        "statusfila": "0",
+        "idterminal": [
+          "16"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 7",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "9",
+        "filanomemlq": "Consultorio 7",
+        "statusfila": "0",
+        "idterminal": [
+          "17"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 8",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "10",
+        "filanomemlq": "Consultorio 8",
+        "statusfila": "0",
+        "idterminal": [
+          "18"
+        ],
+        "encaminhavel": false,
+        "serversenha": "",
+        "serverprint": "",
+        "aviso": false,
+        "msgaviso": "Favor se dirigir ao balcão"
+      },
+      {
+        "nomefila": "Consultorio 9",
+        "contadormaxfila": "999",
+        "letrafila": "",
+        "prioridadefila": "0",
+        "faixainicialfila": "201",
+        "faixafinalfila": "399",
+        "filamlq": "11",
+        "filanomemlq": "Consultorio 9",
+        "statusfila": "0",
+        "idterminal": [
+          "19"
         ],
         "encaminhavel": false,
         "serversenha": "",
@@ -128,8 +314,9 @@
       "3"
     ],
     "balanceamentofila": [
-      "3",
+      "0",
       "1",
+      "2",
       "0"
     ],
     "acima80anosprio": "1",
@@ -142,7 +329,8 @@
       "caixa",
       "terminal",
       "atendimento",
-      "balanca"
+      "balanca",
+      "consultorio"
     ],
     "terminais": [
       {
@@ -169,7 +357,7 @@
       },
       {
         "idterminal": "3",
-        "paineltxt": "SS3",
+        "paineltxt": "3",
         "painelpalavra": "guiche",
         "status": "1",
         "tipofala": "0",
@@ -180,7 +368,7 @@
       },
       {
         "idterminal": "4",
-        "paineltxt": "SS4",
+        "paineltxt": "4",
         "painelpalavra": "guiche",
         "status": "1",
         "tipofala": "0",
@@ -201,9 +389,97 @@
         "audioaorepetir": false
       },
       {
-        "idterminal": "6",
+        "idterminal": "11",
+        "paineltxt": "1",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "12",
+        "paineltxt": "2",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "13",
+        "paineltxt": "3",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "14",
+        "paineltxt": "4",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "15",
+        "paineltxt": "5",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "16",
         "paineltxt": "6",
-        "painelpalavra": "guiche",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "17",
+        "paineltxt": "7",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "18",
+        "paineltxt": "8",
+        "painelpalavra": "consultorio",
+        "status": "1",
+        "tipofala": "0",
+        "tipochamada": null,
+        "filavaziachamaglobal": false,
+        "audioadicional": "",
+        "audioaorepetir": false
+      },
+      {
+        "idterminal": "19",
+        "paineltxt": "9",
+        "painelpalavra": "consultorio",
         "status": "1",
         "tipofala": "0",
         "tipochamada": null,
@@ -218,7 +494,7 @@
     "repetidor": "0",
     "repetidores": [
       {
-        "painelcall": "http://192.168.10.174:3000"
+        "painelcall": "http://192.168.10.133:3000"
       }
     ],
     "chamadores": [
@@ -236,9 +512,14 @@
     "expires": "24h"
   },
   "painelbotao": {
+    "tiposorientation": [
+      "Horizontal",
+      "Vertical"
+    ],
+    "orientation": "1",
     "width": "800",
     "height": "1280",
-    "posx": "0",
+    "posx": "1920",
     "posy": "0",
     "background": "images/ortopedia-aguasclaras.png",
     "tipopaineis": [
