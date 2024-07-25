@@ -31,6 +31,10 @@
       "timesync": "1"
     }
   },
+  "painelgerenciamento": {
+    "ativo": true,
+    "porta": "8080"
+  },
   "impressao": {
     "tipoimpressoras": ["Custom", "Bematech", "Megaview"],
     "tipoimpressora": "1",
