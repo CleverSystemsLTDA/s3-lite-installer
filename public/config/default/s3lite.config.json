@@ -37,8 +37,8 @@
       "Bematech",
       "Megaview"
     ],
-    "tipoimpressora": "1",
-    "imprimir": "0",
+    "tipoimpressora": "2",
+    "imprimir": "1",
     "network": "0",
     "porta": "COM8",
     "logo": "/s3lite/images/logoClever.png",
