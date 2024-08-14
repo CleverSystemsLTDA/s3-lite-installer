@@ -112,6 +112,8 @@ function updaterListeners() {
 }
 
 function openApplication() {
+  updateJson.version = app.getVersion();
+  writeJson(updateJson);
   log.info(`Abrindo Sistema S3Lite...`);
   child = execFile(require.resolve(path));
 
@@ -128,7 +130,7 @@ app.whenReady().then(async () => {
   autoUpdater.autoInstallOnAppQuit = false;
   autoUpdater.allowDowngrade = true;
   autoUpdater.allowPrerelease = true;
-  autoUpdater.channel = 'latest';
+  autoUpdater.channel = 'beta';
 
   log.info(`Version App: ${app.getVersion()}`);
   log.info(`Channel: ${autoUpdater.channel}`);
