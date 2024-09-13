@@ -3,7 +3,6 @@ const { autoUpdater } = require("electron-updater");
 const log = require("electron-log");
 const { resolve, join } = require("path");
 const fs = require("fs");
-// const updateJson = require('./update.json')
 const { execFile } = require("child_process");
 const ProgressBar = require("electron-progressbar");
 
@@ -31,31 +30,6 @@ function createWindow() {
 function writeJson(json) {
   fs.writeFileSync(updateJsonFile, JSON.stringify(json));
 }
-
-/* async function checkUpdate() {
-  let progressBar = new ProgressBar({
-    indeterminate: false,
-    text: "Baixando atualizações...",
-    detail: "Aguarde",
-  });
-  progressBar
-    .on("completed", function () {
-      progressBar.detail = "Atualização finalizada. Finalizando...";
-    })
-    .on("aborted", function (value) {
-      console.info(`aborted... ${value}`);
-    })
-    .on("progress", function (value) {
-      progressBar.detail = `Baixado ${value.toFixed(2)}% de ${progressBar.getOptions().maxValue
-        }%...`;
-    });
-
-  setInterval(function () {
-    if (!progressBar.isCompleted()) {
-      progressBar.value = downloadPercent;
-    }
-  }, 20);
-} */
 
 function updaterListeners() {
   autoUpdater.on("update-available", (info) => {
@@ -96,12 +70,6 @@ function updaterListeners() {
   });
 
   autoUpdater.on("error", (message) => {
-    /*  dialog.showMessageBox(mainWindow, {
-       type: "error",
-       title: "Erro em att",
-       message: `${message}`,
-       buttons: ["OK"],
-     }); */
     log.info("Erro em buscar atualização");
     log.info(message);
     openApplication();
@@ -135,11 +103,6 @@ app.whenReady().then(async () => {
   createWindow();
   updaterListeners();
   const resultUpdater = await autoUpdater.checkForUpdatesAndNotify();
-  /* if (resultUpdater !== null) {
-    if (resultUpdater.versionInfo.version !== app.getVersion()) {
-      return;
-    }
-  } */
 
   if (updateJson.updatedownloaded === 0) {
     openApplication();

@@ -1,4 +1,5 @@
 package-lock.json
+application.exe
 node_modules/
 build/
 dist/
