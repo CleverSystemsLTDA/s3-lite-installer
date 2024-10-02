@@ -1,8 +1,9 @@
 package-lock.json
+application.exe
 node_modules/
 build/
 dist/
-
+application.exe
 
 electron-builder.yml
 dev-app-update.yml
