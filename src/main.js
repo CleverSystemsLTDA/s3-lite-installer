@@ -11,10 +11,18 @@ let child = null;
 let downloadPercent = 0;
 
 const extraPath = join(process.resourcesPath, "..");
-
 const path = join(extraPath, "application.exe");
 const updateJsonFile = join(extraPath, "update.json");
-const updateJson = require(updateJsonFile);
+const updateJsonBackup = join(extraPath, "update.json.backup");
+
+// Default JSON structure
+const defaultUpdateJson = {
+  updatedownloaded: 0,
+  version: "1.0.0"
+};
+
+let updateJson = null;
+let isWriting = false;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -27,8 +35,128 @@ function createWindow() {
   });
 }
 
+function safeReadJson(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      log.warn(`JSON file not found: ${filePath}`);
+      return null;
+    }
+
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    // Check if file is empty or contains only whitespace
+    if (!content.trim()) {
+      log.warn(`JSON file is empty: ${filePath}`);
+      return null;
+    }
+
+    const parsed = JSON.parse(content);
+    
+    // Validate structure
+    if (typeof parsed !== 'object' || parsed === null) {
+      log.warn(`JSON file has invalid structure: ${filePath}`);
+      return null;
+    }
+
+    return parsed;
+  } catch (error) {
+    log.error(`Error reading JSON file ${filePath}:`, error.message);
+    return null;
+  }
+}
+
+function loadUpdateJson() {
+  // Try to load main file
+  let json = safeReadJson(updateJsonFile);
+  
+  if (json === null) {
+    log.warn("Main update.json is corrupted or missing, trying backup...");
+    
+    // Try backup file
+    json = safeReadJson(updateJsonBackup);
+    
+    if (json === null) {
+      log.warn("Backup is also corrupted or missing, using defaults...");
+      json = { ...defaultUpdateJson };
+    } else {
+      log.info("Successfully loaded from backup, restoring main file...");
+      // Restore main file from backup
+      safeWriteJson(json);
+    }
+  }
+
+  // Ensure all required properties exist
+  updateJson = {
+    ...defaultUpdateJson,
+    ...json
+  };
+
+  log.info(`Loaded update.json: ${JSON.stringify(updateJson)}`);
+  return updateJson;
+}
+
+async function safeWriteJson(json) {
+  // Prevent concurrent writes
+  if (isWriting) {
+    log.warn("Write operation already in progress, skipping...");
+    return false;
+  }
+
+  isWriting = true;
+
+  try {
+    // Validate JSON structure before writing
+    if (typeof json !== 'object' || json === null) {
+      throw new Error("Invalid JSON structure");
+    }
+
+    const jsonString = JSON.stringify(json, null, 2);
+    const tempFile = updateJsonFile + '.tmp';
+
+    // Write to temporary file first
+    fs.writeFileSync(tempFile, jsonString, 'utf8');
+
+    // Verify the temporary file by reading it back
+    const verification = safeReadJson(tempFile);
+    if (verification === null) {
+      throw new Error("Failed to verify temporary file");
+    }
+
+    // Create backup of current file (if it exists and is valid)
+    if (fs.existsSync(updateJsonFile)) {
+      const currentJson = safeReadJson(updateJsonFile);
+      if (currentJson !== null) {
+        fs.copyFileSync(updateJsonFile, updateJsonBackup);
+      }
+    }
+
+    // Atomically replace the main file
+    fs.renameSync(tempFile, updateJsonFile);
+
+    log.info(`Successfully wrote update.json: ${jsonString}`);
+    return true;
+  } catch (error) {
+    log.error("Error writing JSON file:", error.message);
+    
+    // Clean up temp file if it exists
+    const tempFile = updateJsonFile + '.tmp';
+    if (fs.existsSync(tempFile)) {
+      try {
+        fs.unlinkSync(tempFile);
+      } catch (cleanupError) {
+        log.error("Error cleaning up temp file:", cleanupError.message);
+      }
+    }
+    
+    return false;
+  } finally {
+    isWriting = false;
+  }
+}
+
 function writeJson(json) {
-  fs.writeFileSync(updateJsonFile, JSON.stringify(json));
+  updateJson = { ...updateJson, ...json };
+  return safeWriteJson(updateJson);
 }
 
 function updaterListeners() {
@@ -59,7 +187,7 @@ function updaterListeners() {
     }
 
     if (updateJson.updatedownloaded === 0) {
-      log.info(`Alterando para Downloded`);
+      log.info(`Alterando para Downloaded`);
       updateJson.updatedownloaded = 1;
       writeJson(updateJson);
     }
@@ -87,6 +215,22 @@ function openApplication() {
   });
 }
 
+// Handle app termination gracefully
+app.on('before-quit', (event) => {
+  if (isWriting) {
+    log.info("Write operation in progress, delaying quit...");
+    event.preventDefault();
+    
+    // Wait for write to complete, then quit
+    const checkWriting = setInterval(() => {
+      if (!isWriting) {
+        clearInterval(checkWriting);
+        app.quit();
+      }
+    }, 100);
+  }
+});
+
 app.whenReady().then(async () => {
   autoUpdater.logger = log;
   autoUpdater.logger.transports.file.level = "info";
@@ -95,10 +239,13 @@ app.whenReady().then(async () => {
   autoUpdater.autoInstallOnAppQuit = false;
   autoUpdater.allowDowngrade = true;
   autoUpdater.allowPrerelease = true;
-  autoUpdater.channel = "beta"; // alpha, beta, latest
+  autoUpdater.channel = "latest"; // alpha, beta, latest
 
   log.info(`Version App: ${app.getVersion()}`);
   log.info(`Channel: ${autoUpdater.channel}`);
+
+  // Load JSON with safety checks
+  loadUpdateJson();
 
   createWindow();
   updaterListeners();
