@@ -3,7 +3,7 @@ const { autoUpdater } = require("electron-updater");
 const log = require("electron-log");
 const { resolve, join } = require("path");
 const fs = require("fs");
-const { execFile } = require("child_process");
+const { execFile, exec } = require("child_process");
 const ProgressBar = require("electron-progressbar");
 
 let mainWindow;
@@ -18,7 +18,8 @@ const updateJsonBackup = join(extraPath, "update.json.backup");
 // Default JSON structure
 const defaultUpdateJson = {
   updatedownloaded: 0,
-  version: "1.0.0"
+  version: "1.0.0",
+  lastFirewallUpdate: "1.0.0"
 };
 
 let updateJson = null;
@@ -159,6 +160,60 @@ function writeJson(json) {
   return safeWriteJson(updateJson);
 }
 
+// Function to update firewall rules (runs with admin privileges via scheduled task)
+function updateFirewallRules() {
+  return new Promise((resolve, reject) => {
+    log.info("Updating firewall rules...");
+    
+    const exePath = app.getPath('exe');
+    const installDir = join(process.resourcesPath, "..");
+    
+    // Paths that need firewall rules
+    const s3litePath = join(installDir, 's3lite.exe');
+    const applicationPath = join(installDir, 'application.exe');
+    const updaterPath = join(installDir, 'resources', 'Update.exe');
+    
+    const commands = `
+netsh advfirewall firewall delete rule name="s3lite"
+netsh advfirewall firewall delete rule name="s3lite-app"
+netsh advfirewall firewall delete rule name="s3lite-updater"
+netsh advfirewall firewall add rule name="s3lite" dir=in action=allow program="${s3litePath}" enable=yes
+netsh advfirewall firewall add rule name="s3lite" dir=out action=allow program="${s3litePath}" enable=yes
+netsh advfirewall firewall add rule name="s3lite-app" dir=in action=allow program="${applicationPath}" enable=yes
+netsh advfirewall firewall add rule name="s3lite-app" dir=out action=allow program="${applicationPath}" enable=yes
+netsh advfirewall firewall add rule name="s3lite-updater" dir=in action=allow program="${updaterPath}" enable=yes
+netsh advfirewall firewall add rule name="s3lite-updater" dir=out action=allow program="${updaterPath}" enable=yes
+    `.trim();
+    
+    exec(commands, (error, stdout, stderr) => {
+      if (error) {
+        log.error('Failed to update firewall rules:', error);
+        log.error('stderr:', stderr);
+        reject(error);
+        return;
+      }
+      log.info('Firewall rules updated successfully');
+      log.info('stdout:', stdout);
+      resolve();
+    });
+  });
+}
+
+// Check if running with admin privileges
+function checkAdminPrivileges() {
+  return new Promise((resolve) => {
+    exec('net session', (error) => {
+      if (error) {
+        log.warn('Not running as admin - firewall updates will fail');
+        resolve(false);
+      } else {
+        log.info('Running with admin privileges');
+        resolve(true);
+      }
+    });
+  });
+}
+
 function updaterListeners() {
   autoUpdater.on("update-available", (info) => {
     const arrVersion = info.version.split("-");
@@ -246,6 +301,33 @@ app.whenReady().then(async () => {
 
   // Load JSON with safety checks
   loadUpdateJson();
+
+  // Check if we're running with admin privileges
+  const hasAdmin = await checkAdminPrivileges();
+  
+  if (hasAdmin) {
+    const currentVersion = app.getVersion();
+    const lastFirewallUpdate = updateJson.lastFirewallUpdate || "0.0.0";
+    
+    // Update firewall rules if this is a new version
+    if (currentVersion !== lastFirewallUpdate) {
+      log.info(`Version changed from ${lastFirewallUpdate} to ${currentVersion}, updating firewall rules...`);
+      
+      try {
+        await updateFirewallRules();
+        updateJson.lastFirewallUpdate = currentVersion;
+        writeJson(updateJson);
+        log.info("Firewall rules updated for new version");
+      } catch (error) {
+        log.error("Failed to update firewall rules, but continuing anyway:", error);
+      }
+    } else {
+      log.info("Firewall rules are up to date for current version");
+    }
+  } else {
+    log.warn("Not running as admin - skipping firewall rule update");
+    log.warn("Make sure the app is launched via the scheduled task for proper admin privileges");
+  }
 
   createWindow();
   updaterListeners();
