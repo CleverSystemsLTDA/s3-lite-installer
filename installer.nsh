@@ -18,6 +18,11 @@ ${endIf}
 !macro customInstall
   DetailPrint "Setting up s3lite with elevated privileges..."
   
+  ; ===== REMOVE SHELL STARTUP SHORTCUTS =====
+  DetailPrint "Removing shell startup shortcuts..."
+  Delete "$SMSTARTUP\s3lite.lnk"
+  Delete "$SMSTARTUP\s3lite.exe - Atalho.lnk"
+  
   ; ===== FIREWALL RULES =====
   DetailPrint "Configuring firewall rules..."
   
@@ -65,6 +70,12 @@ ${endIf}
   ; Remove scheduled task
   DetailPrint "Removing scheduled task..."
   nsExec::ExecToLog 'schtasks /delete /tn "s3lite-launcher" /f'
+  
+  ; Remove shell startup shortcuts
+  DetailPrint "Removing shell startup shortcuts..."
+  Delete "$SMSTARTUP\s3lite.lnk"
+  Delete "$SMSTARTUP\s3lite.exe - Atalho.lnk"
+  Delete "$SMSTARTUP\s3lite.exe.lnk"
   
   ; Remove firewall rules
   DetailPrint "Removing firewall rules..."
