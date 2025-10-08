@@ -1,6 +1,6 @@
 {
 	"name": "s3-lite-installer",
-	"version": "2.10.2-latest",
+	"version": "2.12.0-alpha",
 	"description": "SistemaDeAtualizacao",
 	"main": "src/main.js",
 	"scripts": {
@@ -14,7 +14,7 @@
 		"url": "git+https://github.com/CleverSystemsLTDA/s3-lite-installer.git"
 	},
 	"build": {
-		"appId": "com.s3-lite-installer.ElectronAutoUpdate",
+		"appId": "com.cleversystems.s3lite",
 		"buildDependenciesFromSource": true,
 		"productName": "s3lite",
 		"asar": true,
@@ -40,18 +40,22 @@
 					]
 				}
 			],
-			"icon": "infra/images/icon.ico"
+			"icon": "infra/images/icon.ico",
+			"publisherName": "CleverSystemsLTDA",
+			"verifyUpdateCodeSignature": false
 		},
 		"nsis": {
 			"installerIcon": "infra/images/icon.ico",
 			"uninstallerIcon": "infra/images/icon.ico",
 			"uninstallDisplayName": "s3lite",
-			"oneClick": true,
+			"oneClick": false,
 			"allowToChangeInstallationDirectory": false,
 			"perMachine": true,
 			"allowElevation": true,
 			"include": "installer.nsh",
-			"runAfterFinish": false
+			"runAfterFinish": false,
+			"createDesktopShortcut": true,
+			"createStartMenuShortcut": true
 		}
 	},
 	"keywords": [],
