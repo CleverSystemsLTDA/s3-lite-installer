@@ -332,8 +332,4 @@ app.whenReady().then(async () => {
   createWindow();
   updaterListeners();
   const resultUpdater = await autoUpdater.checkForUpdatesAndNotify();
-
-  if (updateJson.updatedownloaded === 0) {
-    openApplication();
-  }
 });
