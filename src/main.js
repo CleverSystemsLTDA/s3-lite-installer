@@ -44,7 +44,7 @@ function safeReadJson(filePath) {
     }
 
     const content = fs.readFileSync(filePath, 'utf8');
-    
+
     // Check if file is empty or contains only whitespace
     if (!content.trim()) {
       log.warn(`JSON file is empty: ${filePath}`);
@@ -52,7 +52,7 @@ function safeReadJson(filePath) {
     }
 
     const parsed = JSON.parse(content);
-    
+
     // Validate structure
     if (typeof parsed !== 'object' || parsed === null) {
       log.warn(`JSON file has invalid structure: ${filePath}`);
@@ -69,13 +69,13 @@ function safeReadJson(filePath) {
 function loadUpdateJson() {
   // Try to load main file
   let json = safeReadJson(updateJsonFile);
-  
+
   if (json === null) {
     log.warn("Main update.json is corrupted or missing, trying backup...");
-    
+
     // Try backup file
     json = safeReadJson(updateJsonBackup);
-    
+
     if (json === null) {
       log.warn("Backup is also corrupted or missing, using defaults...");
       json = { ...defaultUpdateJson };
@@ -138,7 +138,7 @@ async function safeWriteJson(json) {
     return true;
   } catch (error) {
     log.error("Error writing JSON file:", error.message);
-    
+
     // Clean up temp file if it exists
     const tempFile = updateJsonFile + '.tmp';
     if (fs.existsSync(tempFile)) {
@@ -148,7 +148,7 @@ async function safeWriteJson(json) {
         log.error("Error cleaning up temp file:", cleanupError.message);
       }
     }
-    
+
     return false;
   } finally {
     isWriting = false;
@@ -164,15 +164,15 @@ function writeJson(json) {
 function updateFirewallRules() {
   return new Promise((resolve, reject) => {
     log.info("Updating firewall rules...");
-    
+
     const exePath = app.getPath('exe');
     const installDir = join(process.resourcesPath, "..");
-    
+
     // Paths that need firewall rules
     const s3litePath = join(installDir, 's3lite.exe');
     const applicationPath = join(installDir, 'application.exe');
     const updaterPath = join(installDir, 'resources', 'Update.exe');
-    
+
     const commands = `
 netsh advfirewall firewall delete rule name="s3lite"
 netsh advfirewall firewall delete rule name="s3lite-app"
@@ -184,7 +184,7 @@ netsh advfirewall firewall add rule name="s3lite-app" dir=out action=allow progr
 netsh advfirewall firewall add rule name="s3lite-updater" dir=in action=allow program="${updaterPath}" enable=yes
 netsh advfirewall firewall add rule name="s3lite-updater" dir=out action=allow program="${updaterPath}" enable=yes
     `.trim();
-    
+
     exec(commands, (error, stdout, stderr) => {
       if (error) {
         log.error('Failed to update firewall rules:', error);
@@ -231,8 +231,8 @@ function updaterListeners() {
       log.info(`Alterando para disponível para download`);
       updateJson.updatedownloaded = 0;
       writeJson(updateJson);
-      openApplication();
     }
+    openApplication(); // Always open the application when no update is needed
   });
 
   autoUpdater.on("update-downloaded", () => {
@@ -275,7 +275,7 @@ app.on('before-quit', (event) => {
   if (isWriting) {
     log.info("Write operation in progress, delaying quit...");
     event.preventDefault();
-    
+
     // Wait for write to complete, then quit
     const checkWriting = setInterval(() => {
       if (!isWriting) {
@@ -294,7 +294,7 @@ app.whenReady().then(async () => {
   autoUpdater.autoInstallOnAppQuit = false;
   autoUpdater.allowDowngrade = true;
   autoUpdater.allowPrerelease = true;
-  autoUpdater.channel = "alpha"; // alpha, beta, latest
+  autoUpdater.channel = "beta"; // alpha, beta, latest
 
   log.info(`Version App: ${app.getVersion()}`);
   log.info(`Channel: ${autoUpdater.channel}`);
@@ -304,15 +304,15 @@ app.whenReady().then(async () => {
 
   // Check if we're running with admin privileges
   const hasAdmin = await checkAdminPrivileges();
-  
+
   if (hasAdmin) {
     const currentVersion = app.getVersion();
     const lastFirewallUpdate = updateJson.lastFirewallUpdate || "0.0.0";
-    
+
     // Update firewall rules if this is a new version
     if (currentVersion !== lastFirewallUpdate) {
       log.info(`Version changed from ${lastFirewallUpdate} to ${currentVersion}, updating firewall rules...`);
-      
+
       try {
         await updateFirewallRules();
         updateJson.lastFirewallUpdate = currentVersion;
