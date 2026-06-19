@@ -1,6 +1,8 @@
 package-lock.json
 application.exe
 node_modules/
+.env
+public/.env
 build/
 dist/
 application.exe
