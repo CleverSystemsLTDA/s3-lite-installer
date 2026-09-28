@@ -292,9 +292,13 @@ app.whenReady().then(async () => {
   log.info("App starting...");
   autoUpdater.autoDownload = false;
   autoUpdater.autoInstallOnAppQuit = false;
-  autoUpdater.allowDowngrade = true;
   autoUpdater.allowPrerelease = true;
   autoUpdater.channel = "latest"; // alpha, beta, latest
+  // Depois do channel: o setter do channel liga allowDowngrade = true sozinho.
+  // false: uma maquina instalada a mao com uma versao ainda em rascunho (ativacao do
+  // licenciamento) nao pode voltar sozinha para a ultima release publicada.
+  // Voltar atras passa a ser so instalando a versao antiga por cima, a mao.
+  autoUpdater.allowDowngrade = false;
 
   log.info(`Version App: ${app.getVersion()}`);
   log.info(`Channel: ${autoUpdater.channel}`);
