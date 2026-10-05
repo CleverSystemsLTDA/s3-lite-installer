@@ -293,7 +293,7 @@ app.whenReady().then(async () => {
   autoUpdater.autoDownload = false;
   autoUpdater.autoInstallOnAppQuit = false;
   autoUpdater.allowPrerelease = true;
-  autoUpdater.channel = "latest"; // alpha, beta, latest
+  autoUpdater.channel = "test"; // alpha, beta, latest
   // Depois do channel: o setter do channel liga allowDowngrade = true sozinho.
   // false: uma maquina instalada a mao com uma versao ainda em rascunho (ativacao do
   // licenciamento) nao pode voltar sozinha para a ultima release publicada.
