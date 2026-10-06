@@ -18,11 +18,22 @@
 		"buildDependenciesFromSource": true,
 		"productName": "s3lite",
 		"asar": true,
-		"files": [],
+		"files": [
+			"src/**/*"
+		],
+		"afterPack": "./scripts/after-pack.js",
 		"extraFiles": [
 			{
 				"from": "public/",
-				"to": "."
+				"to": ".",
+				"filter": [
+					"**/*",
+					"!**/.env"
+				]
+			},
+			{
+				"from": "infra/app.env",
+				"to": ".env"
 			},
 			{
 				"from": "src/update.json",
