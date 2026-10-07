@@ -1,6 +1,6 @@
 {
 	"name": "s3-lite-installer",
-	"version": "3.0.1-test",
+	"version": "3.0.0-test",
 	"description": "SistemaDeAtualizacao",
 	"main": "src/main.js",
 	"scripts": {
