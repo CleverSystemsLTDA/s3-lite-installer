@@ -293,10 +293,13 @@ app.whenReady().then(async () => {
   autoUpdater.autoDownload = false;
   autoUpdater.autoInstallOnAppQuit = false;
   autoUpdater.allowPrerelease = true;
-  autoUpdater.channel = "test"; // alpha, beta, latest
+  // 3.x (licenciamento): v3alpha, v3beta, v3. Canal proprio para a 2.x (alpha, beta,
+  // latest) nao enxergar a 3.x; a 3.0 entra a mao, com a ativacao da licenca.
+  // Sem "-" no nome: o update-available le o canal com split("-")[1].
+  autoUpdater.channel = "v3alpha";
   // Depois do channel: o setter do channel liga allowDowngrade = true sozinho.
-  // false: uma maquina instalada a mao com uma versao ainda em rascunho (ativacao do
-  // licenciamento) nao pode voltar sozinha para a ultima release publicada.
+  // false: uma maquina instalada a mao com uma versao nova nao pode voltar
+  // sozinha para uma versao menor do mesmo canal.
   // Voltar atras passa a ser so instalando a versao antiga por cima, a mao.
   autoUpdater.allowDowngrade = false;
 
