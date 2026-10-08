@@ -517,11 +517,10 @@
     },
     "token": {
         "token": "0",
-        "secret": "çaldkhfahgadakejfalkdsfabgçbgajgtadharheirerupqoieuraoasdkfjhgirp^^~~",
+        "secret": "0",
         "expires": "24h"
     },
     "tokenDashboard": {
-        "refresh_token": "abcdefghijklmnopqrstuvwxyz",
         "client_id": "s3lite-service"
     },
     "painelbotao": {
