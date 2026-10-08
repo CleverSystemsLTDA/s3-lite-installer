@@ -26,8 +26,6 @@
         "dashboard": {
             "syncdashboard": "0",
             "host": "https://newdashboard.cleversystems.net",
-            "user": "deprecated",
-            "pass": "deprecated",
             "timesync": "1",
             "firstSyncDone": false
         }
@@ -524,8 +522,7 @@
     },
     "tokenDashboard": {
         "refresh_token": "abcdefghijklmnopqrstuvwxyz",
-        "client_id": "s3lite-service",
-        "idLoja": "0"
+        "client_id": "s3lite-service"
     },
     "painelbotao": {
         "tiposorientation": [
