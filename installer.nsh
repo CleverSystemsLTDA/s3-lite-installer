@@ -46,18 +46,31 @@ ${endIf}
   DetailPrint "Firewall rules configured successfully"
   
   ; ===== SCHEDULED TASK =====
-  DetailPrint "Creating scheduled task for elevated execution..."
-  
-  ; Delete existing task if it exists (ignore errors)
-  nsExec::ExecToLog 'schtasks /delete /tn "s3lite-launcher" /f'
-  
-  ; Create scheduled task that runs at system startup with highest privileges
-  ; /rl HIGHEST = Run with highest privileges (no UAC prompt)
-  ; /sc ONSTART = Run when system boots (before user login)
-  ; /delay 0000:30 = Wait 30 seconds after boot (gives system time to stabilize)
-  nsExec::ExecToLog 'schtasks /create /tn "s3lite-launcher" /tr "C:\s3lite\s3lite.exe" /sc ONSTART /rl HIGHEST /delay 0000:30 /f'
-  
-  DetailPrint "Scheduled task created successfully"
+  DetailPrint "Creating scheduled task s3lite-launcher..."
+
+  ; Liga o historico do Agendador: quando a tarefa for pulada, fica registro para diagnostico
+  nsExec::ExecToLog 'wevtutil sl Microsoft-Windows-TaskScheduler/Operational /e:true'
+
+  ; Registro por XML (public\s3lite-launcher.xml, UTF-16): gatilho no logon de qualquer usuario,
+  ; grupo Usuarios com HighestAvailable, sem limite de 72 h, roda na bateria, pasta C:\s3lite.
+  ; /f sobrescreve a tarefa antiga (ONSTART) sem precisar apagar antes.
+  Push $0
+  nsExec::ExecToLog 'schtasks /create /tn "s3lite-launcher" /xml "$INSTDIR\s3lite-launcher.xml" /f'
+  Pop $0
+  ${if} $0 == 0
+    DetailPrint "Scheduled task created from XML (logon trigger)"
+  ${else}
+    ; Sem o XML a maquina ficaria sem auto start: cai para a linha de comando, no logon
+    DetailPrint "XML import failed ($0), creating scheduled task by command line (ONLOGON)"
+    nsExec::ExecToLog 'schtasks /create /tn "s3lite-launcher" /tr "C:\s3lite\s3lite.exe" /sc ONLOGON /rl HIGHEST /delay 0000:15 /f'
+    Pop $0
+    ${if} $0 != 0
+      DetailPrint "ONLOGON failed ($0), creating scheduled task ONSTART (old way)"
+      nsExec::ExecToLog 'schtasks /create /tn "s3lite-launcher" /tr "C:\s3lite\s3lite.exe" /sc ONSTART /rl HIGHEST /delay 0000:30 /f'
+      Pop $0
+    ${endIf}
+  ${endIf}
+  Pop $0
 !macroend
 
 !macro customUnInstall

@@ -214,38 +214,68 @@ function checkAdminPrivileges() {
   });
 }
 
+// Atualizacao em duas fases, para o sistema nunca ficar fechado esperando download:
+// - updatedownloaded 0: abre o app na hora e baixa a atualizacao em segundo plano.
+//   Quando termina, so marca updatedownloaded = 1.
+// - updatedownloaded 1: antes de abrir o app, procura de novo. O download sai do cache
+//   (rapido) e instala. Se nao tiver atualizacao, der erro ou passar do tempo, abre o app.
+// Com o app aberto o quitAndInstall nunca roda: o instalador nao troca o application.exe em uso.
+const INSTALL_TIMEOUT_MS = 60 * 1000;
+let installOnStart = false;
+let installTimer = null;
+
+function stopInstallTimer() {
+  if (installTimer) {
+    clearTimeout(installTimer);
+    installTimer = null;
+  }
+}
+
+// Sem atualizacao para instalar agora: limpa a marca e abre o app (se ainda nao abriu).
+function noUpdate() {
+  stopInstallTimer();
+  if (updateJson.updatedownloaded === 1) {
+    log.info(`Alterando para disponível para download`);
+    writeJson({ updatedownloaded: 0 });
+  }
+  openApplication();
+}
+
 function updaterListeners() {
   autoUpdater.on("update-available", (info) => {
     const arrVersion = info.version.split("-");
     const updateChannel = arrVersion[1];
 
-    if (updateChannel === autoUpdater.channel) {
-      log.info(`Update disponível: V${info.version}`);
-      autoUpdater.downloadUpdate();
+    if (updateChannel !== autoUpdater.channel) {
+      log.info(`Update V${info.version} é de outro canal (${updateChannel}), ignorando`);
+      noUpdate();
+      return;
     }
+
+    log.info(`Update disponível: V${info.version}`);
+    autoUpdater.downloadUpdate().catch((error) => {
+      log.error("Erro ao baixar atualização:", error && error.message);
+    });
   });
 
-  autoUpdater.on("update-not-available", (info) => {
+  autoUpdater.on("update-not-available", () => {
     log.info("Update not Available");
-    if (updateJson.updatedownloaded === 1) {
-      log.info(`Alterando para disponível para download`);
-      updateJson.updatedownloaded = 0;
-      writeJson(updateJson);
-    }
-    openApplication(); // Always open the application when no update is needed
+    noUpdate();
   });
 
   autoUpdater.on("update-downloaded", () => {
-    if (updateJson.updatedownloaded === 1) {
+    if (installOnStart && !child) {
+      stopInstallTimer();
       log.info(`Download concluído... pronto para instalar atualização`);
+      // Volta para 0 antes: se o instalador falhar, o proximo inicio abre o app
+      // em vez de tentar instalar de novo a cada boot.
+      writeJson({ updatedownloaded: 0 });
       autoUpdater.quitAndInstall(true, true);
+      return;
     }
 
-    if (updateJson.updatedownloaded === 0) {
-      log.info(`Alterando para Downloaded`);
-      updateJson.updatedownloaded = 1;
-      writeJson(updateJson);
-    }
+    log.info(`Alterando para Downloaded (instala no próximo início)`);
+    writeJson({ updatedownloaded: 1 });
   });
 
   autoUpdater.on("download-progress", (progressObj) => {
@@ -255,11 +285,14 @@ function updaterListeners() {
   autoUpdater.on("error", (message) => {
     log.info("Erro em buscar atualização");
     log.info(message);
+    stopInstallTimer();
     openApplication();
   });
 }
 
 function openApplication() {
+  if (child) return;
+
   updateJson.version = app.getVersion();
   writeJson(updateJson);
   log.info(`Abrindo Sistema S3Lite...`);
@@ -286,7 +319,15 @@ app.on('before-quit', (event) => {
   }
 });
 
+// Um launcher so: um clique no atalho com o sistema aberto nao abre outro application.exe.
+const gotSingleInstanceLock = app.requestSingleInstanceLock();
+if (!gotSingleInstanceLock) {
+  log.info("Launcher já está rodando, saindo");
+  app.quit();
+}
+
 app.whenReady().then(async () => {
+  if (!gotSingleInstanceLock) return;
   autoUpdater.logger = log;
   autoUpdater.logger.transports.file.level = "info";
   log.info("App starting...");
@@ -338,5 +379,24 @@ app.whenReady().then(async () => {
 
   createWindow();
   updaterListeners();
-  const resultUpdater = await autoUpdater.checkForUpdatesAndNotify();
+
+  installOnStart = updateJson.updatedownloaded === 1;
+  if (installOnStart) {
+    log.info("Atualização baixada, instalando antes de abrir o sistema...");
+    installTimer = setTimeout(() => {
+      installTimer = null;
+      log.warn(`Atualização não respondeu em ${INSTALL_TIMEOUT_MS / 1000}s, abrindo o sistema (instala no próximo início)`);
+      openApplication();
+    }, INSTALL_TIMEOUT_MS);
+  } else {
+    openApplication();
+  }
+
+  try {
+    await autoUpdater.checkForUpdates();
+  } catch (error) {
+    log.error("Erro em checkForUpdates:", error && error.message);
+    stopInstallTimer();
+    openApplication();
+  }
 });
